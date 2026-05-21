@@ -3,10 +3,12 @@
 import { useRouter } from 'next/navigation'
 import { Button } from '@shared/ui/button/button'
 import { useContractStore } from '@shared/stores/contract.store'
+import { useIntl } from '@shared/i18n/intl'
 
 export function SuccessStep() {
   const router = useRouter()
   const { reset } = useContractStore()
+  const { t } = useIntl()
 
   const handleGoToContracts = () => {
     reset()
@@ -27,18 +29,17 @@ export function SuccessStep() {
       </div>
       <div>
         <h2 className="[font-family:var(--font-display)] text-4xl tracking-wide text-[color:var(--color-text-primary)]">
-          Solicitud enviada
+          {t('requestSentTitle')}
         </h2>
         <p className="mt-2 max-w-xs text-sm text-[color:var(--color-text-secondary)]">
-          Tu solicitud de contratación fue recibida exitosamente. Te notificaremos cuando esté
-          activa.
+          {t('requestSentDescription')}
         </p>
       </div>
       <div className="flex gap-3">
         <Button variant="secondary" onClick={handleGoToContracts}>
-          Ver mis solicitudes
+          {t('viewRequests')}
         </Button>
-        <Button onClick={handleGoToDashboard}>Ir al Dashboard</Button>
+        <Button onClick={handleGoToDashboard}>{t('goToDashboard')}</Button>
       </div>
     </div>
   )

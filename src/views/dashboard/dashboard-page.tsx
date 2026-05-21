@@ -24,7 +24,7 @@ export function DashboardPage() {
     queryFn: () => contractService.getAll(),
   })
 
-  const numberLocale = locale === 'es-MX' ? 'es-MX' : 'en-US'
+  const numberLocale = locale
 
   return (
     <div className="space-y-6">

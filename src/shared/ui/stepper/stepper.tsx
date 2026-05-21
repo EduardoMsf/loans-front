@@ -1,4 +1,7 @@
+'use client'
+
 import { cn } from '@shared/lib/cn'
+import { useIntl } from '@shared/i18n/intl'
 
 interface Step {
   label: string
@@ -6,24 +9,36 @@ interface Step {
 }
 
 interface StepperProps {
-  steps: Step[]
-  currentStep: number
+  readonly steps: readonly Step[]
+  readonly currentStep: number
 }
 
 export function Stepper({ steps, currentStep }: StepperProps) {
+  const { t } = useIntl()
+
   return (
-    <nav aria-label="Progreso de contratación">
-      <ol className="flex items-center" role="list">
+    <nav aria-label={t('wizardProgress')}>
+      <ol className="flex items-center">
         {steps.map((step, index) => {
           const stepNumber = index + 1
           const isCompleted = stepNumber < currentStep
           const isCurrent = stepNumber === currentStep
+          let status = t('pending')
 
-          const statusLabel = isCompleted
-            ? `Paso ${stepNumber}: ${step.label} — completado`
-            : isCurrent
-              ? `Paso ${stepNumber}: ${step.label} — actual`
-              : `Paso ${stepNumber}: ${step.label} — pendiente`
+          if (isCompleted) {
+            status = t('completed')
+          } else if (isCurrent) {
+            status = t('current')
+          }
+
+          const statusLabel = `${t('step')} ${stepNumber}: ${step.label} — ${status}`
+          let labelColorClass = 'text-(--color-text-muted)'
+
+          if (isCurrent) {
+            labelColorClass = 'text-amber-500'
+          } else if (isCompleted) {
+            labelColorClass = 'text-(--color-text-secondary)'
+          }
 
           return (
             <li
@@ -35,13 +50,13 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                 <div
                   aria-hidden="true"
                   className={cn(
-                    'flex h-8 w-8 items-center justify-center rounded-[2px] text-sm font-semibold transition-colors duration-200',
-                    '[font-family:var(--font-mono)]',
+                    'flex h-8 w-8 items-center justify-center rounded-xs text-sm font-semibold transition-colors duration-200',
+                    'font-mono',
                     isCompleted && 'bg-amber-500 text-[#0c0c0a]',
                     isCurrent && 'border border-amber-500 text-amber-500',
                     !isCompleted &&
                       !isCurrent &&
-                      'border border-[color:var(--color-border)] text-[color:var(--color-text-muted)]',
+                      'border border-(--color-border) text-(--color-text-muted)',
                   )}
                 >
                   {isCompleted ? (
@@ -59,12 +74,8 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                 </div>
                 <span
                   className={cn(
-                    '[font-family:var(--font-mono)] text-[10px] tracking-[0.08em] uppercase',
-                    isCurrent
-                      ? 'text-amber-500'
-                      : isCompleted
-                        ? 'text-[color:var(--color-text-secondary)]'
-                        : 'text-[color:var(--color-text-muted)]',
+                    'font-mono text-[10px] tracking-[0.08em] uppercase',
+                    labelColorClass,
                   )}
                 >
                   <span className="sr-only">{statusLabel} — </span>
@@ -76,7 +87,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                   aria-hidden="true"
                   className={cn(
                     'mx-2 mb-5 h-px flex-1 transition-colors duration-200',
-                    isCompleted ? 'bg-amber-500' : 'bg-[color:var(--color-border)]',
+                    isCompleted ? 'bg-amber-500' : 'bg-(--color-border)',
                   )}
                 />
               )}

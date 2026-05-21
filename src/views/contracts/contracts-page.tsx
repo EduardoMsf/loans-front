@@ -17,8 +17,8 @@ export function ContractsPage() {
     queryFn: () => contractService.getAll(),
   })
 
-  const numberLocale = locale === 'es-MX' ? 'es-MX' : 'en-US'
-  const dateLocale = locale === 'es-MX' ? 'es-MX' : 'en-US'
+  const numberLocale = locale
+  const dateLocale = locale
 
   return (
     <div className="space-y-6">

@@ -8,6 +8,7 @@ import { Badge } from '@shared/ui/badge/badge'
 import { Spinner } from '@shared/ui/spinner/spinner'
 import { cn } from '@shared/lib/cn'
 import { analytics } from '@shared/lib/analytics'
+import { useIntl } from '@shared/i18n/intl'
 import type { Product } from '@entities/product/product.types'
 
 const riskVariant = {
@@ -16,14 +17,19 @@ const riskVariant = {
   HIGH: 'error' as const,
 }
 
-const riskLabel = { LOW: 'bajo', MEDIUM: 'medio', HIGH: 'alto' }
-
 export function SelectProductStep() {
   const { selectedProduct, setProduct, nextStep } = useContractStore()
+  const { t } = useIntl()
   const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
     queryFn: () => productService.getAll(),
   })
+
+  const riskLabel = {
+    LOW: t('riskLevelLow'),
+    MEDIUM: t('riskLevelMedium'),
+    HIGH: t('riskLevelHigh'),
+  }
 
   const handleSelect = (product: Product) => {
     setProduct(product)
@@ -39,19 +45,19 @@ export function SelectProductStep() {
     <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
-          Elige tu producto de inversión
+          {t('selectProductTitle')}
         </h2>
         <p
           className="mt-1 text-sm text-[color:var(--color-text-secondary)]"
           id="product-group-desc"
         >
-          Selecciona el producto que deseas contratar
+          {t('selectProductDescription')}
         </p>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center py-8">
-          <Spinner label="Cargando productos…" />
+          <Spinner label={t('loadingProducts')} />
         </div>
       ) : (
         <div
@@ -80,7 +86,7 @@ export function SelectProductStep() {
                     {product.icon}
                   </span>
                   <Badge variant={riskVariant[product.riskLevel]}>
-                    Riesgo {riskLabel[product.riskLevel]}
+                    {t('riskLabel')} {riskLabel[product.riskLevel]}
                   </Badge>
                 </div>
                 <p className="font-semibold text-[color:var(--color-text-primary)]">
@@ -90,7 +96,7 @@ export function SelectProductStep() {
                   {product.description}
                 </p>
                 <p className="[font-family:var(--font-mono)] text-[11px] tracking-[0.05em] text-amber-500">
-                  Rendimiento estimado: {product.annualReturn}% anual
+                  {t('estimatedReturn')}: {product.annualReturn}% {t('perYear')}
                 </p>
               </button>
             )
@@ -102,9 +108,9 @@ export function SelectProductStep() {
         <Button
           onClick={handleContinue}
           disabled={!selectedProduct}
-          aria-label={selectedProduct ? `Continuar con ${selectedProduct.name}` : 'Continuar'}
+          aria-label={selectedProduct ? `${t('continue')} ${selectedProduct.name}` : t('continue')}
         >
-          Continuar →
+          {t('continue')} →
         </Button>
       </div>
     </div>

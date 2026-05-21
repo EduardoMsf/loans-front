@@ -7,8 +7,10 @@ import { contractService } from '@entities/contract/contract.service'
 import { Button } from '@shared/ui/button/button'
 import { ReAuthModal } from '@features/auth/re-auth-modal/re-auth-modal'
 import { analytics } from '@shared/lib/analytics'
+import { useIntl } from '@shared/i18n/intl'
 
 export function SignContractStep() {
+  const { t } = useIntl()
   const [modalOpen, setModalOpen] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const {
@@ -49,29 +51,29 @@ export function SignContractStep() {
       await queryClient.invalidateQueries({ queryKey: ['contracts'] })
       nextStep()
     } catch {
-      setSubmitError('Error al procesar la firma. Intenta de nuevo.')
+      setSubmitError(t('signContractError'))
     }
   }
 
   const rows = [
-    { label: 'Producto', value: selectedProduct?.name },
+    { label: t('productLabel'), value: selectedProduct?.name },
     {
-      label: 'Monto mínimo',
+      label: t('minAmountLabel'),
       value: `$${selectedProduct?.minAmount.toLocaleString('es-MX')} ${selectedProduct?.currency}`,
     },
-    { label: 'Cuenta de cargo', value: `**** ${debitAccount?.lastFour}` },
-    { label: 'Cuenta de abono', value: `**** ${creditAccount?.lastFour}` },
-    { label: 'Titular', value: clientInfo?.fullName },
+    { label: t('debitAccountLabel'), value: `**** ${debitAccount?.lastFour}` },
+    { label: t('creditAccountLabel'), value: `**** ${creditAccount?.lastFour}` },
+    { label: t('accountHolderLabel'), value: clientInfo?.fullName },
   ]
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
-          Firma tu solicitud
+          {t('signContractTitle')}
         </h2>
         <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
-          Revisa el resumen y confirma con tu contraseña
+          {t('signContractDescription')}
         </p>
       </div>
 
@@ -105,10 +107,10 @@ export function SignContractStep() {
 
       <div className="flex justify-between">
         <Button variant="secondary" onClick={prevStep} disabled={isPending}>
-          ← Atrás
+          ← {t('back')}
         </Button>
         <Button onClick={() => setModalOpen(true)} loading={isPending}>
-          Firmar solicitud
+          {t('signRequest')}
         </Button>
       </div>
 

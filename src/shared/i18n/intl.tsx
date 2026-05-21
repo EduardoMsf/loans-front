@@ -5,14 +5,18 @@ import type { ReactNode } from 'react'
 
 import enUS from './messages/en-US.json'
 import esMX from './messages/es-MX.json'
+import itIT from './messages/it-IT.json'
+import frFR from './messages/fr-FR.json'
 
-export type Locale = 'es-MX' | 'en-US'
-export const locales: Locale[] = ['es-MX', 'en-US']
+export type Locale = 'es-MX' | 'en-US' | 'it-IT' | 'fr-FR'
+export const locales: Locale[] = ['en-US', 'es-MX', 'it-IT', 'fr-FR']
 export const defaultLocale: Locale = 'es-MX'
 
 const messages: Record<Locale, Record<string, string>> = {
   'es-MX': esMX,
   'en-US': enUS,
+  'it-IT': itIT,
+  'fr-FR': frFR,
 }
 
 const STORAGE_KEY = 'locale'
@@ -20,10 +24,12 @@ const STORAGE_KEY = 'locale'
 function getBrowserLocale(): Locale {
   if (typeof navigator === 'undefined') return defaultLocale
 
-  const language = navigator.language
+  const language = navigator.language.toLowerCase()
 
-  if (language.toLowerCase().startsWith('en')) return 'en-US'
-  if (language.toLowerCase().startsWith('es')) return 'es-MX'
+  if (language.startsWith('en')) return 'en-US'
+  if (language.startsWith('es')) return 'es-MX'
+  if (language.startsWith('it')) return 'it-IT'
+  if (language.startsWith('fr')) return 'fr-FR'
 
   return defaultLocale
 }

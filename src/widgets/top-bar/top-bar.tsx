@@ -1,11 +1,13 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { useAuthStore } from '@shared/stores/auth.store'
 import { useThemeStore } from '@shared/stores/theme.store'
-import { Button } from '@shared/ui/button/button'
 import { analytics } from '@shared/lib/analytics'
 import { useRouter } from 'next/navigation'
-import { useIntl } from '@shared/i18n/intl'
+import { useIntl, locales } from '@shared/i18n/intl'
+import type { Locale } from '@shared/i18n/intl'
+import { Button } from '@shared/ui/button/button'
 
 interface TopBarProps {
   readonly onMenuToggle: () => void
@@ -49,20 +51,128 @@ function MoonIcon() {
   )
 }
 
+function ChevronDownIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={`h-3 w-3 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+    </svg>
+  )
+}
+
+const LOCALE_META: Record<Locale, { flag: string; label: string; short: string }> = {
+  'en-US': { flag: '🇺🇸', label: 'English', short: 'EN' },
+  'es-MX': { flag: '🇲🇽', label: 'Español', short: 'ES' },
+  'it-IT': { flag: '🇮🇹', label: 'Italiano', short: 'IT' },
+  'fr-FR': { flag: '🇫🇷', label: 'Français', short: 'FR' },
+}
+
+function LanguageSwitcher() {
+  const { locale, setLocale } = useIntl()
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onMouse = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', onMouse)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onMouse)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  const current = LOCALE_META[locale]
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label="Select language"
+        className="flex items-center gap-1.5 rounded-[2px] border border-[color:var(--color-border)] px-2.5 py-1.5 [font-family:var(--font-mono)] text-[11px] font-medium tracking-wide text-[color:var(--color-text-muted)] uppercase transition-colors hover:border-amber-500 hover:text-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none"
+      >
+        <span aria-hidden="true">{current.flag}</span>
+        <span>{current.short}</span>
+        <ChevronDownIcon open={open} />
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Select language"
+          className="absolute top-full right-0 z-50 mt-1.5 min-w-[148px] overflow-hidden rounded-[2px] border border-[color:var(--color-border)] py-1 shadow-lg"
+          style={{ background: 'var(--color-surface)' }}
+        >
+          {locales.map((loc) => {
+            const meta = LOCALE_META[loc]
+            const isActive = loc === locale
+            return (
+              <button
+                key={loc}
+                role="option"
+                aria-selected={isActive}
+                onClick={() => {
+                  setLocale(loc)
+                  setOpen(false)
+                }}
+                className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-[12px] transition-colors hover:bg-amber-500/10 hover:text-amber-500 ${
+                  isActive
+                    ? 'font-semibold text-amber-500'
+                    : 'text-[color:var(--color-text-secondary)]'
+                }`}
+              >
+                <span className="text-[14px]" aria-hidden="true">
+                  {meta.flag}
+                </span>
+                <span>{meta.label}</span>
+                {isActive && (
+                  <svg
+                    className="ml-auto h-3.5 w-3.5 shrink-0 text-amber-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function TopBar({ onMenuToggle }: TopBarProps) {
   const { user, clearAuth } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
   const router = useRouter()
-  const { locale, setLocale, t } = useIntl()
+  const { t } = useIntl()
 
   const handleLogout = () => {
     analytics.logout()
     clearAuth()
     router.push('/login')
-  }
-
-  const handleLocaleToggle = () => {
-    setLocale(locale === 'es-MX' ? 'en-US' : 'es-MX')
   }
 
   return (
@@ -111,14 +221,8 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
           {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
         </button>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleLocaleToggle}
-          aria-label={locale === 'es-MX' ? t('switchToEnglish') : t('switchToSpanish')}
-        >
-          {locale === 'es-MX' ? 'EN' : 'ES'}
-        </Button>
+        <LanguageSwitcher />
+
         <Button variant="ghost" size="sm" onClick={handleLogout} aria-label={t('logout')}>
           {t('logout')}
         </Button>

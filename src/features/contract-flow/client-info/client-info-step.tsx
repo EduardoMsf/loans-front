@@ -8,6 +8,7 @@ import { useAuthStore } from '@shared/stores/auth.store'
 import { Input } from '@shared/ui/input/input'
 import { Button } from '@shared/ui/button/button'
 import { analytics } from '@shared/lib/analytics'
+import { useIntl } from '@shared/i18n/intl'
 
 const schema = z.object({
   fullName: z.string().min(3),
@@ -21,6 +22,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export function ClientInfoStep() {
+  const { t } = useIntl()
   const { user } = useAuthStore()
   const { clientInfo, setClientInfo, nextStep, prevStep } = useContractStore()
 
@@ -42,7 +44,7 @@ export function ClientInfoStep() {
 
   const onSubmit = (values: FormValues) => {
     setClientInfo(values as ClientInfo)
-    analytics.wizardStepComplete(4, 'Información del cliente')
+    analytics.wizardStepComplete(4, t('clientInfoTitle'))
     nextStep()
   }
 
@@ -50,31 +52,36 @@ export function ClientInfoStep() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-          Información del cliente
+          {t('clientInfoTitle')}
         </h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Confirma tus datos personales
+          {t('clientInfoDescription')}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Input label="Nombre completo" error={errors.fullName?.message} {...register('fullName')} />
+        <Input label={t('fullName')} error={errors.fullName?.message} {...register('fullName')} />
         <Input
-          label="RFC"
+          label={t('rfc')}
           error={errors.rfc?.message}
           placeholder="GAAN850101ABC"
           {...register('rfc')}
         />
-        <Input label="Teléfono" error={errors.phone?.message} {...register('phone')} />
-        <Input label="Email" type="email" error={errors.email?.message} {...register('email')} />
+        <Input label={t('phone')} error={errors.phone?.message} {...register('phone')} />
+        <Input
+          label={t('email')}
+          type="email"
+          error={errors.email?.message}
+          {...register('email')}
+        />
         <div className="sm:col-span-2">
-          <Input label="Domicilio" error={errors.address?.message} {...register('address')} />
+          <Input label={t('address')} error={errors.address?.message} {...register('address')} />
         </div>
         <div className="sm:col-span-2">
           <Input
-            label="Propósito de inversión"
+            label={t('investmentPurpose')}
             error={errors.investmentPurpose?.message}
-            placeholder="Ahorro a largo plazo, retiro, etc."
+            placeholder={t('investmentPurposePlaceholder')}
             {...register('investmentPurpose')}
           />
         </div>
@@ -82,9 +89,9 @@ export function ClientInfoStep() {
 
       <div className="flex justify-between">
         <Button type="button" variant="secondary" onClick={prevStep}>
-          ← Atrás
+          ← {t('back')}
         </Button>
-        <Button type="submit">Continuar →</Button>
+        <Button type="submit">{t('continue')} →</Button>
       </div>
     </form>
   )

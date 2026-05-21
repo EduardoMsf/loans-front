@@ -7,9 +7,11 @@ import { Button } from '@shared/ui/button/button'
 import { Spinner } from '@shared/ui/spinner/spinner'
 import { cn } from '@shared/lib/cn'
 import { analytics } from '@shared/lib/analytics'
+import { useIntl } from '@shared/i18n/intl'
 import type { Account } from '@entities/account/account.types'
 
 export function DebitAccountStep() {
+  const { t } = useIntl()
   const { debitAccount, setDebitAccount, nextStep, prevStep } = useContractStore()
   const { data: accounts, isLoading } = useQuery({
     queryKey: ['accounts'],
@@ -22,19 +24,19 @@ export function DebitAccountStep() {
     <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
-          Cuenta de cargo
+          {t('debitAccountTitle')}
         </h2>
         <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
-          ¿De qué cuenta se realizará el cargo?
+          {t('debitAccountDescription')}
         </p>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center py-8">
-          <Spinner label="Cargando cuentas…" />
+          <Spinner label={t('loadingAccounts')} />
         </div>
       ) : (
-        <div role="radiogroup" aria-label="Cuenta de cargo" className="space-y-3">
+        <div role="radiogroup" aria-label={t('debitAccountTitle')} className="space-y-3">
           {debitAccounts.map((account) => (
             <AccountCard
               key={account.id}
@@ -48,16 +50,16 @@ export function DebitAccountStep() {
 
       <div className="flex justify-between">
         <Button variant="secondary" onClick={prevStep}>
-          ← Atrás
+          ← {t('back')}
         </Button>
         <Button
           onClick={() => {
-            analytics.wizardStepComplete(2, 'Cuenta de cargo')
+            analytics.wizardStepComplete(2, t('debitAccountTitle'))
             nextStep()
           }}
           disabled={!debitAccount}
         >
-          Continuar →
+          {t('continue')} →
         </Button>
       </div>
     </div>
@@ -69,9 +71,9 @@ function AccountCard({
   selected,
   onSelect,
 }: {
-  account: Account
-  selected: boolean
-  onSelect: (a: Account) => void
+  readonly account: Account
+  readonly selected: boolean
+  readonly onSelect: (a: Account) => void
 }) {
   return (
     <button
