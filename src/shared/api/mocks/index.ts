@@ -1,0 +1,138 @@
+import type { User } from '@entities/user/user.types'
+import type { Product } from '@entities/product/product.types'
+import type { Contract } from '@entities/contract/contract.types'
+import type { Account } from '@entities/account/account.types'
+
+export const mockUser: User = {
+  id: 'u-001',
+  name: 'Ana García',
+  email: 'ana.garcia@example.com',
+  rfc: 'GAAN850101ABC',
+  phone: '+52 55 1234 5678',
+  createdAt: '2024-01-15T10:00:00Z',
+}
+
+export const mockProducts: Product[] = [
+  {
+    id: 'prod-001',
+    name: 'Divisa USD',
+    type: 'FOREX',
+    description: 'Compra-venta de dólares estadounidenses',
+    minAmount: 1000,
+    currency: 'USD',
+    annualReturn: 4.5,
+    riskLevel: 'LOW',
+    icon: '🇺🇸',
+  },
+  {
+    id: 'prod-002',
+    name: 'Divisa EUR',
+    type: 'FOREX',
+    description: 'Compra-venta de euros',
+    minAmount: 1000,
+    currency: 'EUR',
+    annualReturn: 3.8,
+    riskLevel: 'LOW',
+    icon: '🇪🇺',
+  },
+  {
+    id: 'prod-003',
+    name: 'Fondo de Renta Variable',
+    type: 'FUND',
+    description: 'Fondo diversificado en acciones del mercado mexicano',
+    minAmount: 5000,
+    currency: 'MXN',
+    annualReturn: 12.3,
+    riskLevel: 'HIGH',
+    icon: '📈',
+  },
+  {
+    id: 'prod-004',
+    name: 'CETES 28 días',
+    type: 'FIXED_INCOME',
+    description: 'Certificados de la Tesorería de la Federación',
+    minAmount: 100,
+    currency: 'MXN',
+    annualReturn: 11.1,
+    riskLevel: 'LOW',
+    icon: '🏦',
+  },
+]
+
+export const mockAccounts: Account[] = [
+  {
+    id: 'acc-001',
+    label: 'Cuenta de Cheques Principal',
+    bank: 'Banco Nacional',
+    clabe: '014180655234567890',
+    lastFour: '7890',
+    type: 'DEBIT',
+    balance: 125000,
+    currency: 'MXN',
+  },
+  {
+    id: 'acc-002',
+    label: 'Cuenta de Ahorro',
+    bank: 'Banco Nacional',
+    clabe: '014180655234567891',
+    lastFour: '7891',
+    type: 'DEBIT',
+    balance: 48500,
+    currency: 'MXN',
+  },
+  {
+    id: 'acc-003',
+    label: 'Cuenta de Inversión USD',
+    bank: 'Banco Nacional',
+    clabe: '014180655234567892',
+    lastFour: '7892',
+    type: 'CREDIT',
+    balance: 12000,
+    currency: 'USD',
+  },
+]
+
+export const mockContracts: Contract[] = [
+  {
+    id: 'cnt-001',
+    folio: 'FLX-2024-001',
+    productId: 'prod-001',
+    productName: 'Divisa USD',
+    productType: 'FOREX',
+    status: 'ACTIVE',
+    amount: 5000,
+    currency: 'USD',
+    debitAccountId: 'acc-001',
+    creditAccountId: 'acc-003',
+    createdAt: '2024-02-10T09:00:00Z',
+    updatedAt: '2024-02-10T09:30:00Z',
+  },
+  {
+    id: 'cnt-002',
+    folio: 'FLX-2024-002',
+    productId: 'prod-004',
+    productName: 'CETES 28 días',
+    productType: 'FIXED_INCOME',
+    status: 'ACTIVE',
+    amount: 10000,
+    currency: 'MXN',
+    debitAccountId: 'acc-002',
+    creditAccountId: 'acc-002',
+    createdAt: '2024-03-01T11:00:00Z',
+    updatedAt: '2024-03-01T11:15:00Z',
+  },
+  {
+    id: 'cnt-003',
+    folio: 'FLX-2024-003',
+    productId: 'prod-003',
+    productName: 'Fondo de Renta Variable',
+    productType: 'FUND',
+    status: 'PENDING_SIGN',
+    amount: 20000,
+    currency: 'MXN',
+    debitAccountId: 'acc-001',
+    creditAccountId: 'acc-001',
+    createdAt: '2024-04-15T14:00:00Z',
+    updatedAt: '2024-04-15T14:00:00Z',
+  },
+]
