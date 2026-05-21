@@ -38,10 +38,13 @@ export function SelectProductStep() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
           Elige tu producto de inversión
         </h2>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400" id="product-group-desc">
+        <p
+          className="mt-1 text-sm text-[color:var(--color-text-secondary)]"
+          id="product-group-desc"
+        >
           Selecciona el producto que deseas contratar
         </p>
       </div>
@@ -65,11 +68,11 @@ export function SelectProductStep() {
                 aria-checked={isSelected}
                 onClick={() => handleSelect(product)}
                 className={cn(
-                  'flex flex-col gap-2 rounded-xl border-2 p-4 text-left transition-all focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none',
-                  'hover:border-indigo-300 hover:bg-indigo-50 dark:hover:border-indigo-700 dark:hover:bg-indigo-900/20',
+                  'sweep-top flex flex-col gap-2 rounded-[2px] border-2 p-4 text-left transition-all duration-200',
+                  'focus:ring-1 focus:ring-amber-500 focus:outline-none',
                   isSelected
-                    ? 'border-indigo-600 bg-indigo-50 dark:border-indigo-500 dark:bg-indigo-900/30'
-                    : 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800',
+                    ? 'border-amber-500 bg-amber-500/5'
+                    : 'border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-amber-500/40 hover:bg-[color:var(--color-elevated)]',
                 )}
               >
                 <div className="flex items-center justify-between">
@@ -80,9 +83,13 @@ export function SelectProductStep() {
                     Riesgo {riskLabel[product.riskLevel]}
                   </Badge>
                 </div>
-                <p className="font-semibold text-gray-900 dark:text-gray-100">{product.name}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{product.description}</p>
-                <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                <p className="font-semibold text-[color:var(--color-text-primary)]">
+                  {product.name}
+                </p>
+                <p className="text-xs text-[color:var(--color-text-secondary)]">
+                  {product.description}
+                </p>
+                <p className="[font-family:var(--font-mono)] text-[11px] tracking-[0.05em] text-amber-500">
                   Rendimiento estimado: {product.annualReturn}% anual
                 </p>
               </button>

@@ -39,29 +39,54 @@ export function InvestmentChart() {
     )
 
   if (isError || !data) {
-    return <p className="py-8 text-center text-sm text-gray-500">{t('exchangeDataError')}</p>
+    return (
+      <p className="py-8 text-center text-sm text-[color:var(--color-text-muted)]">
+        {t('exchangeDataError')}
+      </p>
+    )
   }
 
   return (
     <ResponsiveContainer width="100%" height={280}>
       <LineChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-        <XAxis dataKey="date" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+        <XAxis
+          dataKey="date"
+          tick={{ fontSize: 10, fontFamily: 'var(--font-mono)', fill: 'var(--color-text-muted)' }}
+          tickLine={false}
+          axisLine={false}
+        />
         <YAxis
-          tick={{ fontSize: 12 }}
+          tick={{ fontSize: 10, fontFamily: 'var(--font-mono)', fill: 'var(--color-text-muted)' }}
           tickLine={false}
           axisLine={false}
           tickFormatter={(v) => `$${v}`}
         />
         <Tooltip
+          contentStyle={{
+            background: 'var(--color-elevated)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '2px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            color: 'var(--color-text-primary)',
+          }}
           formatter={(value) =>
             value === null || value === undefined ? ['', ''] : [`$${value} MXN`, '']
           }
         />
-        <Legend />
+        <Legend
+          wrapperStyle={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: 'var(--color-text-muted)',
+          }}
+        />
         <Line
           type="monotone"
           dataKey="USD"
-          stroke="#6366f1"
+          stroke="#f59e0b"
           strokeWidth={2}
           dot={false}
           name="USD/MXN"
@@ -69,7 +94,7 @@ export function InvestmentChart() {
         <Line
           type="monotone"
           dataKey="EUR"
-          stroke="#10b981"
+          stroke="#9a9690"
           strokeWidth={2}
           dot={false}
           name="EUR/MXN"

@@ -27,8 +27,8 @@ export const authService = {
         refreshToken: 'mock-refresh-token',
       }
     }
-    const { data } = await apiClient.post<LoginResponse>('/auth/login', payload)
-    return data
+    const { data } = await apiClient.post<{ data: LoginResponse }>('/auth/login', payload)
+    return data.data
   },
 
   async register(payload: { name: string; email: string; password: string }): Promise<void> {
@@ -60,7 +60,7 @@ export const authService = {
       await new Promise((r) => setTimeout(r, 700))
       return { signatureToken: `sig-token-${Date.now()}` }
     }
-    const { data } = await apiClient.post<ReAuthResponse>('/auth/re-auth', payload)
-    return data
+    const { data } = await apiClient.post<{ data: ReAuthResponse }>('/auth/re-auth', payload)
+    return data.data
   },
 }

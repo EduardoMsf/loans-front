@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 const PUBLIC_PATHS = ['/login', '/register', '/forgot-password', '/reset-password']
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isPublicPath = PUBLIC_PATHS.some((p) => pathname.startsWith(p))
   const token = request.cookies.get('access_token')?.value

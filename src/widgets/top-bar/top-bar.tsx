@@ -66,10 +66,16 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
   }
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6 dark:border-gray-700 dark:bg-gray-900">
+    <header
+      className="flex h-16 items-center justify-between border-b px-6"
+      style={{
+        background: 'var(--color-surface)',
+        borderColor: 'var(--color-border)',
+      }}
+    >
       <button
         onClick={onMenuToggle}
-        className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-800"
+        className="rounded-[2px] p-2 text-[color:var(--color-text-muted)] transition-colors hover:text-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none"
         aria-label={t('toggleSidebar')}
         aria-controls="sidebar"
       >
@@ -89,9 +95,9 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
         </svg>
       </button>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <span
-          className="text-sm text-gray-600 dark:text-gray-400"
+          className="[font-family:var(--font-mono)] text-[11px] tracking-[0.08em] text-[color:var(--color-text-muted)] uppercase"
           aria-label={`${t('user')}: ${user?.name ?? t('user')}`}
         >
           {user?.name ?? t('user')}
@@ -100,7 +106,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
         <button
           onClick={toggleTheme}
           aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-800"
+          className="flex h-9 w-9 items-center justify-center rounded-[2px] border border-[color:var(--color-border)] text-[color:var(--color-text-muted)] transition-colors hover:border-amber-500 hover:text-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none"
         >
           {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
         </button>

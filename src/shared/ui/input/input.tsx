@@ -19,12 +19,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       undefined
 
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor={inputId}
+            className="[font-family:var(--font-mono)] text-[10px] tracking-[0.12em] text-[color:var(--color-text-muted)] uppercase"
+          >
             {label}
             {required && (
-              <span className="ml-1 text-red-500" aria-hidden="true">
+              <span className="ml-1 text-amber-500" aria-hidden="true">
                 *
               </span>
             )}
@@ -38,23 +41,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           className={cn(
-            'rounded-lg border px-3 py-2 text-sm transition-colors',
-            'placeholder:text-gray-400 dark:placeholder:text-gray-500',
-            'focus:border-transparent focus:ring-2 focus:ring-indigo-500 focus:outline-none',
+            'rounded-[2px] border px-3 py-2 text-sm transition-colors duration-200',
+            'bg-[color:var(--color-elevated)] text-[color:var(--color-text-primary)]',
+            'placeholder:text-[color:var(--color-text-muted)]',
+            'focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none',
             error
-              ? 'border-red-400 bg-red-50 text-gray-900 focus:ring-red-500 dark:border-red-700 dark:bg-red-900/20 dark:text-gray-100'
-              : 'border-gray-300 bg-white text-gray-900 hover:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-500',
+              ? 'border-red-500/50 bg-red-950/20 focus:ring-red-500'
+              : 'border-[color:var(--color-border)] hover:border-amber-500/30',
             className,
           )}
           {...props}
         />
         {error && (
-          <p id={errorId} role="alert" className="text-xs text-red-600 dark:text-red-400">
+          <p id={errorId} role="alert" className="text-xs text-red-400">
             {error}
           </p>
         )}
         {hint && !error && (
-          <p id={hintId} className="text-xs text-gray-500 dark:text-gray-400">
+          <p id={hintId} className="text-xs text-[color:var(--color-text-muted)]">
             {hint}
           </p>
         )}

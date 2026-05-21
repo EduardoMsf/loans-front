@@ -35,12 +35,13 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                 <div
                   aria-hidden="true"
                   className={cn(
-                    'flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-colors',
-                    isCompleted && 'bg-indigo-600 text-white',
-                    isCurrent && 'border-2 border-indigo-600 text-indigo-600',
+                    'flex h-8 w-8 items-center justify-center rounded-[2px] text-sm font-semibold transition-colors duration-200',
+                    '[font-family:var(--font-mono)]',
+                    isCompleted && 'bg-amber-500 text-[#0c0c0a]',
+                    isCurrent && 'border border-amber-500 text-amber-500',
                     !isCompleted &&
                       !isCurrent &&
-                      'border-2 border-gray-300 text-gray-400 dark:border-gray-600 dark:text-gray-500',
+                      'border border-[color:var(--color-border)] text-[color:var(--color-text-muted)]',
                   )}
                 >
                   {isCompleted ? (
@@ -58,12 +59,12 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                 </div>
                 <span
                   className={cn(
-                    'text-xs font-medium',
+                    '[font-family:var(--font-mono)] text-[10px] tracking-[0.08em] uppercase',
                     isCurrent
-                      ? 'text-indigo-600'
+                      ? 'text-amber-500'
                       : isCompleted
-                        ? 'text-gray-600 dark:text-gray-300'
-                        : 'text-gray-400 dark:text-gray-500',
+                        ? 'text-[color:var(--color-text-secondary)]'
+                        : 'text-[color:var(--color-text-muted)]',
                   )}
                 >
                   <span className="sr-only">{statusLabel} — </span>
@@ -74,8 +75,8 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                 <div
                   aria-hidden="true"
                   className={cn(
-                    'mx-2 mb-5 h-0.5 flex-1 transition-colors',
-                    isCompleted ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-700',
+                    'mx-2 mb-5 h-px flex-1 transition-colors duration-200',
+                    isCompleted ? 'bg-amber-500' : 'bg-[color:var(--color-border)]',
                   )}
                 />
               )}

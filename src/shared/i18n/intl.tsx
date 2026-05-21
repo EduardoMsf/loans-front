@@ -50,7 +50,13 @@ interface IntlContextValue {
 const IntlContext = createContext<IntlContextValue | undefined>(undefined)
 
 export function IntlProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(getInitialLocale)
+  const [locale, setLocale] = useState<Locale>(defaultLocale)
+
+  useEffect(() => {
+    // Sync with client-side preference after hydration — must differ from server's defaultLocale
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLocale(getInitialLocale())
+  }, [])
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, locale)

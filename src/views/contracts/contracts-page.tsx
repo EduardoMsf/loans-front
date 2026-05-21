@@ -24,10 +24,12 @@ export function ContractsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <h1 className="text-2xl font-semibold text-[color:var(--color-text-primary)]">
             {t('myRequests')}
           </h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('contractHistory')}</p>
+          <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
+            {t('contractHistory')}
+          </p>
         </div>
         <Button onClick={() => router.push('/contracts/new')}>{t('newContract')}</Button>
       </div>
@@ -42,49 +44,38 @@ export function ContractsPage() {
             <table className="w-full text-sm" aria-label={t('contractHistory')}>
               <caption className="sr-only">{t('contractHistoryCaption')}</caption>
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left font-medium text-gray-500 dark:text-gray-400"
-                  >
-                    {t('folio')}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left font-medium text-gray-500 dark:text-gray-400"
-                  >
-                    {t('product')}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left font-medium text-gray-500 dark:text-gray-400"
-                  >
-                    {t('amount')}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left font-medium text-gray-500 dark:text-gray-400"
-                  >
-                    {t('status')}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left font-medium text-gray-500 dark:text-gray-400"
-                  >
-                    {t('date')}
-                  </th>
+                <tr
+                  className="border-b"
+                  style={{
+                    background: 'var(--color-elevated)',
+                    borderColor: 'var(--color-border)',
+                  }}
+                >
+                  {[t('folio'), t('product'), t('amount'), t('status'), t('date')].map((col) => (
+                    <th
+                      key={col}
+                      scope="col"
+                      className="px-6 py-3 text-left [font-family:var(--font-mono)] text-[10px] tracking-[0.15em] text-[color:var(--color-text-muted)] uppercase"
+                    >
+                      {col}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+              <tbody>
                 {(contracts ?? []).map((c) => (
-                  <tr key={c.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                    <td className="px-6 py-4 font-mono text-xs text-gray-600 dark:text-gray-400">
+                  <tr
+                    key={c.id}
+                    className="border-b transition-colors duration-200 hover:bg-amber-500/5"
+                    style={{ borderColor: 'var(--color-border)' }}
+                  >
+                    <td className="px-6 py-4 [font-family:var(--font-mono)] text-xs text-[color:var(--color-text-muted)]">
                       {c.folio}
                     </td>
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
-                      {c.productName}
+                    <td className="px-6 py-4 font-medium text-[color:var(--color-text-primary)]">
+                      {c.product.name}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-[color:var(--color-text-secondary)]">
                       {new Intl.NumberFormat(numberLocale, {
                         style: 'currency',
                         currency: 'MXN',
@@ -94,7 +85,7 @@ export function ContractsPage() {
                     <td className="px-6 py-4">
                       <ContractStatusBadge status={c.status} />
                     </td>
-                    <td className="px-6 py-4 text-gray-500 dark:text-gray-400">
+                    <td className="px-6 py-4 text-[color:var(--color-text-secondary)]">
                       {new Intl.DateTimeFormat(dateLocale, {
                         year: 'numeric',
                         month: 'long',
@@ -106,7 +97,7 @@ export function ContractsPage() {
               </tbody>
             </table>
             {(contracts ?? []).length === 0 && (
-              <p className="py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+              <p className="py-12 text-center text-sm text-[color:var(--color-text-muted)]">
                 {t('noRequestsYet')}
               </p>
             )}

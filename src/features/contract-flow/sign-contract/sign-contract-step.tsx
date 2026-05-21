@@ -53,44 +53,52 @@ export function SignContractStep() {
     }
   }
 
+  const rows = [
+    { label: 'Producto', value: selectedProduct?.name },
+    {
+      label: 'Monto mínimo',
+      value: `$${selectedProduct?.minAmount.toLocaleString('es-MX')} ${selectedProduct?.currency}`,
+    },
+    { label: 'Cuenta de cargo', value: `**** ${debitAccount?.lastFour}` },
+    { label: 'Cuenta de abono', value: `**** ${creditAccount?.lastFour}` },
+    { label: 'Titular', value: clientInfo?.fullName },
+  ]
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
           Firma tu solicitud
         </h2>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
           Revisa el resumen y confirma con tu contraseña
         </p>
       </div>
 
-      <div className="space-y-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm dark:border-gray-700 dark:bg-gray-800">
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">Producto</span>
-          <span className="font-medium dark:text-gray-200">{selectedProduct?.name}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">Monto mínimo</span>
-          <span className="font-medium dark:text-gray-200">
-            ${selectedProduct?.minAmount.toLocaleString('es-MX')} {selectedProduct?.currency}
-          </span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">Cuenta de cargo</span>
-          <span className="font-medium dark:text-gray-200">**** {debitAccount?.lastFour}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">Cuenta de abono</span>
-          <span className="font-medium dark:text-gray-200">**** {creditAccount?.lastFour}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">Titular</span>
-          <span className="font-medium dark:text-gray-200">{clientInfo?.fullName}</span>
-        </div>
+      {/* Summary */}
+      <div
+        className="divide-y rounded-[2px] border text-sm"
+        style={{
+          background: 'var(--color-elevated)',
+          borderColor: 'var(--color-border)',
+        }}
+      >
+        {rows.map(({ label, value }) => (
+          <div
+            key={label}
+            className="flex justify-between px-4 py-3"
+            style={{ borderColor: 'var(--color-border)' }}
+          >
+            <span className="[font-family:var(--font-mono)] text-[10px] tracking-[0.1em] text-[color:var(--color-text-muted)] uppercase">
+              {label}
+            </span>
+            <span className="font-medium text-[color:var(--color-text-primary)]">{value}</span>
+          </div>
+        ))}
       </div>
 
       {submitError && (
-        <p role="alert" className="text-center text-sm text-red-600">
+        <p role="alert" className="text-center text-sm text-red-400">
           {submitError}
         </p>
       )}
@@ -100,7 +108,7 @@ export function SignContractStep() {
           ← Atrás
         </Button>
         <Button onClick={() => setModalOpen(true)} loading={isPending}>
-          🔒 Firmar solicitud
+          Firmar solicitud
         </Button>
       </div>
 

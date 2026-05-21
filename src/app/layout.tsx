@@ -1,11 +1,30 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Manrope, DM_Mono, DM_Serif_Display, Bebas_Neue } from 'next/font/google'
 import Script from 'next/script'
 import { Providers } from './providers'
 import { GA_ID } from '@shared/lib/analytics'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const manrope = Manrope({ subsets: ['latin'], variable: '--font-body', display: 'swap' })
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-mono',
+  display: 'swap',
+})
+const dmSerif = DM_Serif_Display({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-editorial',
+  display: 'swap',
+})
+const bebasNeue = Bebas_Neue({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-display',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Loans Portal — Investment Products',
@@ -14,19 +33,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html
+      lang="es"
+      className={`${manrope.variable} ${dmMono.variable} ${dmSerif.variable} ${bebasNeue.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        {/* Prevent flash of wrong theme */}
+        {/* Prevent flash of wrong theme — also syncs data-theme attr */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('theme');var t=s?JSON.parse(s).state?.theme:'dark';document.documentElement.classList.toggle('dark',t!=='light')}catch(e){document.documentElement.classList.add('dark')}})()`,
+            __html: `(function(){try{var s=localStorage.getItem('theme');var t=s?JSON.parse(s).state?.theme:'dark';if(t!=='light'){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');}else{document.documentElement.setAttribute('data-theme','light');}}catch(e){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');}})()`,
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={manrope.className} suppressHydrationWarning>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-indigo-600 focus:shadow-lg focus:ring-2 focus:ring-indigo-500"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-sm focus:bg-amber-500 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[#0c0c0a] focus:shadow-lg"
         >
           Saltar al contenido principal
         </a>
