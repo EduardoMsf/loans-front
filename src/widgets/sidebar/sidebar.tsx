@@ -24,24 +24,29 @@ export function Sidebar({ open }: SidebarProps) {
       aria-hidden={!open}
       id="sidebar"
       className={cn(
-        'fixed top-0 left-0 z-30 flex h-full w-64 flex-col border-r border-gray-200 bg-white transition-transform dark:border-gray-700 dark:bg-gray-900',
+        'fixed top-0 left-0 z-30 flex h-full w-64 flex-col border-r transition-transform duration-300',
+        'border-[color:var(--color-border)] bg-[color:var(--color-surface)]',
         !open && '-translate-x-full',
       )}
     >
-      <div className="flex h-16 items-center gap-3 border-b border-gray-200 px-6 dark:border-gray-700">
+      {/* Logo row */}
+      <div
+        className="flex h-16 items-center gap-3 border-b px-6"
+        style={{ borderColor: 'var(--color-border)' }}
+      >
         <div
           aria-hidden="true"
-          className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold text-white"
+          className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-amber-500 [font-family:var(--font-mono)] text-sm font-bold text-[#0c0c0a]"
         >
           LP
         </div>
-        <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+        <span className="[font-family:var(--font-mono)] text-[11px] tracking-[0.12em] text-[color:var(--color-text-primary)] uppercase">
           {t('portalName')}
         </span>
       </div>
 
       <nav aria-label={t('portalSections')} className="flex-1 overflow-y-auto p-4">
-        <ul className="space-y-1">
+        <ul className="space-y-0.5">
           {navigation.map((item) => {
             const isActive = pathname.startsWith(item.href)
             return (
@@ -50,14 +55,17 @@ export function Sidebar({ open }: SidebarProps) {
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}
                   className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    'sweep-fill relative flex items-center gap-3 px-3 py-2.5 transition-colors duration-200',
+                    '[font-family:var(--font-mono)] text-[11px] tracking-[0.1em] uppercase',
                     isActive
-                      ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100',
+                      ? 'border-l-2 border-amber-500 bg-amber-500/5 pl-[10px] text-amber-500'
+                      : 'text-[color:var(--color-text-secondary)] hover:text-amber-500',
                   )}
                 >
-                  <span aria-hidden="true">{item.icon}</span>
-                  {item.name}
+                  <span className="relative z-10" aria-hidden="true">
+                    {item.icon}
+                  </span>
+                  <span className="relative z-10">{item.name}</span>
                 </Link>
               </li>
             )

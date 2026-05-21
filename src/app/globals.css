@@ -1,8 +1,31 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Design tokens — dark (default) ─────────────────────────────── */
 :root {
   --sidebar-width: 256px;
+  --color-bg: #050505;
+  --color-surface: #111110;
+  --color-elevated: #1a1a18;
+  --color-text-primary: #f5f0e8;
+  --color-text-secondary: #9a9690;
+  --color-text-muted: #5a5855;
+  --color-border: rgba(245, 240, 232, 0.08);
+  --color-accent: #f59e0b;
+  --color-ghost: rgba(245, 240, 232, 0.1);
+}
+
+/* ── Light theme overrides ───────────────────────────────────────── */
+html:not(.dark) {
+  --color-bg: #f5f0e8;
+  --color-surface: #f0e9e900;
+  --color-elevated: #edeae3;
+  --color-text-primary: #0c0c0a;
+  --color-text-secondary: #5a5855;
+  --color-text-muted: #9a9690;
+  --color-border: rgba(12, 12, 10, 0.08);
+  --color-accent: #f59e0b;
+  --color-ghost: rgba(12, 12, 10, 0.1);
 }
 
 * {
@@ -10,11 +33,66 @@
 }
 
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
 }
 
-html.dark body {
-  background-color: #0f172a;
-  color: #f1f5f9;
+/* ── Directional sweep — amber fill from left (nav rows, cards) ── */
+.sweep-fill {
+  position: relative;
+  overflow: hidden;
+}
+.sweep-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 158, 11, 0.08);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+.sweep-fill:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Directional sweep — amber line grows on left edge ──────────── */
+.sweep-left {
+  position: relative;
+}
+.sweep-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease;
+}
+.sweep-left:hover::before {
+  transform: scaleY(1);
+}
+
+/* ── Directional sweep — amber line grows across top ────────────── */
+.sweep-top {
+  position: relative;
+}
+.sweep-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.sweep-top:hover::before {
+  transform: scaleX(1);
 }

@@ -6,22 +6,28 @@ export function LoginPage() {
   return (
     <Card className="w-full max-w-sm">
       <div className="mb-6 text-center">
-        <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 font-bold text-white">
+        <div
+          className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-[2px] bg-amber-500 [font-family:var(--font-mono)] font-bold text-[#0c0c0a]"
+          aria-hidden="true"
+        >
           LP
         </div>
-        <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Bienvenido</h1>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <h1 className="text-xl font-semibold text-[color:var(--color-text-primary)]">Bienvenido</h1>
+        <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
           Ingresa a tu portal de inversiones
         </p>
       </div>
       <LoginForm />
-      <div className="mt-4 flex flex-col gap-2 text-center text-sm">
-        <Link href="/forgot-password" className="text-indigo-600 hover:underline">
+      <div className="mt-5 flex flex-col gap-2 text-center text-sm">
+        <Link
+          href="/forgot-password"
+          className="text-amber-500 transition-colors hover:text-amber-400"
+        >
           ¿Olvidaste tu contraseña?
         </Link>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-[color:var(--color-text-muted)]">
           ¿No tienes cuenta?{' '}
-          <Link href="/register" className="text-indigo-600 hover:underline">
+          <Link href="/register" className="text-amber-500 transition-colors hover:text-amber-400">
             Regístrate
           </Link>
         </p>

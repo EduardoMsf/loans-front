@@ -19,8 +19,10 @@ export function CreditAccountStep() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Cuenta de abono</h2>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <h2 className="text-lg font-semibold text-[color:var(--color-text-primary)]">
+          Cuenta de abono
+        </h2>
+        <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
           ¿A qué cuenta se acreditará el rendimiento?
         </p>
       </div>
@@ -75,23 +77,26 @@ function AccountCard({
       aria-checked={selected}
       onClick={() => onSelect(account)}
       className={cn(
-        'flex w-full items-center justify-between rounded-xl border-2 p-4 text-left transition-all focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none',
+        'sweep-left flex w-full items-center justify-between rounded-[2px] border-2 p-4 text-left',
+        'transition-all duration-200 focus:ring-1 focus:ring-amber-500 focus:outline-none',
         selected
-          ? 'border-indigo-600 bg-indigo-50 dark:border-indigo-500 dark:bg-indigo-900/30'
-          : 'border-gray-200 hover:border-indigo-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-indigo-700',
+          ? 'border-amber-500 bg-amber-500/5'
+          : 'border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-amber-500/40',
       )}
     >
-      <div>
-        <p className="font-medium text-gray-900 dark:text-gray-100">{account.label}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">
+      <div className="relative z-10">
+        <p className="font-medium text-[color:var(--color-text-primary)]">{account.label}</p>
+        <p className="[font-family:var(--font-mono)] text-[10px] text-[color:var(--color-text-muted)]">
           {account.bank} · **** {account.lastFour}
         </p>
       </div>
-      <div className="text-right">
-        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+      <div className="relative z-10 text-right">
+        <p className="text-sm font-semibold text-[color:var(--color-text-primary)]">
           ${account.balance.toLocaleString('es-MX')}
         </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500">{account.currency}</p>
+        <p className="[font-family:var(--font-mono)] text-[10px] text-[color:var(--color-text-muted)]">
+          {account.currency}
+        </p>
       </div>
     </button>
   )

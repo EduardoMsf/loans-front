@@ -11,17 +11,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<Variant, string> = {
-  primary: 'bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-indigo-300',
+  primary:
+    'bg-amber-500 text-[#0c0c0a] border border-amber-500 hover:bg-transparent hover:text-amber-500 disabled:opacity-40',
   secondary:
-    'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700',
-  ghost: 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
-  danger: 'bg-red-600 text-white hover:bg-red-700',
+    'bg-transparent text-[color:var(--color-text-secondary)] border border-[color:var(--color-border)] hover:border-amber-500/40 hover:text-amber-500',
+  ghost:
+    'bg-transparent text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-elevated)] hover:text-amber-500',
+  danger:
+    'bg-transparent text-red-400 border border-red-500/30 hover:border-red-400 hover:bg-red-400/10',
 }
 
 const sizeStyles: Record<Size, string> = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-sm',
-  lg: 'px-6 py-3 text-base',
+  sm: 'px-3 py-1.5 text-[0.7rem]',
+  md: 'px-4 py-2 text-[0.7rem]',
+  lg: 'px-6 py-3 text-[0.75rem]',
 }
 
 export function Button({
@@ -36,7 +39,10 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 rounded-[2px] font-medium transition-colors duration-200',
+        '[font-family:var(--font-mono)] tracking-[0.1em] uppercase',
+        'focus:ring-1 focus:ring-amber-500 focus:ring-offset-1 focus:ring-offset-[color:var(--color-bg)] focus:outline-none',
+        'disabled:cursor-not-allowed',
         variantStyles[variant],
         sizeStyles[size],
         className,

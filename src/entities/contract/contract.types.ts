@@ -11,16 +11,30 @@ export type ContractStatus =
 export interface Contract {
   id: string
   folio: string
+  userId: string
   productId: string
-  productName: string
-  productType: ProductType
+  debitAccountId: string
+  creditAccountId: string
   status: ContractStatus
   amount: number
   currency: string
-  debitAccountId: string
-  creditAccountId: string
+  signedAt: string | null
+  clientInfo: Record<string, unknown>
   createdAt: string
   updatedAt: string
+  product: {
+    name: string
+    type: ProductType
+    icon: string
+  }
+  debitAccount: {
+    label: string
+    lastFour: string
+  }
+  creditAccount: {
+    label: string
+    lastFour: string
+  }
 }
 
 export interface CreateContractPayload {

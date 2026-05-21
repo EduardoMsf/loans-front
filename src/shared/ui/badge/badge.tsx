@@ -3,11 +3,12 @@ import { cn } from '@shared/lib/cn'
 type BadgeVariant = 'success' | 'warning' | 'error' | 'info' | 'neutral'
 
 const variantStyles: Record<BadgeVariant, string> = {
-  success: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-  warning: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-  error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-  info: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
-  neutral: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
+  success: 'bg-amber-500/10 text-amber-500 border border-amber-500/30',
+  warning: 'bg-amber-500/15 text-amber-400 border border-amber-400/40',
+  error: 'bg-red-950/40 text-red-400 border border-red-500/20',
+  info: 'bg-amber-500/10 text-amber-500 border border-amber-500/20',
+  neutral:
+    'bg-[color:var(--color-ghost)] text-[color:var(--color-text-muted)] border border-[color:var(--color-border)]',
 }
 
 interface BadgeProps {
@@ -20,7 +21,8 @@ export function Badge({ variant = 'neutral', children, className }: BadgeProps) 
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+        'inline-flex items-center rounded-[2px] px-2 py-0.5',
+        '[font-family:var(--font-mono)] text-[10px] tracking-[0.08em]',
         variantStyles[variant],
         className,
       )}
